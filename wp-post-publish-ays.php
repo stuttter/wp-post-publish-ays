@@ -29,11 +29,11 @@ function _wp_post_publish_ays() {
     // Enqueues
     wp_enqueue_script( 'wp_post_publish_ays', $url . 'assets/js/wp-post-publish-ays.js', array( 'jquery' ), $ver, true );
 
-    // Localiz
+    // Localize
     wp_localize_script( 'wp_post_publish_ays', 'WP_Post_Publish_AYS', array(
         'publish' => __( 'Publish', 'wp-post-publish-ays' ),
         'update'  => __( 'Update',  'wp-post-publish-ays' ),
-        'confirm' => __( 'Are you sure you are ready to publish this?', 'wp-post-publish-ays' )
+        'confirm' => wp_post_publish_ays_confirm_text()
     ) );
 }
 add_action( 'admin_enqueue_scripts', '_wp_post_publish_ays' );
@@ -67,4 +67,17 @@ function wp_post_publish_ays_get_asset_version() {
  */
 function wp_post_publish_ays_i18n() {
 	load_plugin_textdomain( 'wp-post-publish-ays', false, dirname( plugin_basename( __FILE__ ) ) . '/assets/lang/' );
+}
+
+/**
+ * Allow confirmation text to be filtered
+ *
+ * @since 0.1.0
+ *
+ * @return string
+ */
+function wp_post_publish_ays_confirm_text() {
+	$default = __( 'Are you really ready to publish this?', 'wp-post-publish-ays' );
+
+	return apply_filters( 'wp_post_publish_ays_confirm_text', $default );
 }
